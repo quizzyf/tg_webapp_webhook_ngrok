@@ -1,0 +1,46 @@
+.search_head {
+    font-size: 6.5vw;
+}
+
+.search_line {
+    font-size: 4vw;
+    margin: 5% 0 3% 0;
+    padding: 2% 2% 2% 2%;
+    width: 76%;
+    border-radius: 2.35vw;
+}
+
+.search_but {
+    font-size: 4vw;
+    margin: 5% 0 3% 0;
+    padding: 2% 2% 2% 2%;
+    border-radius: 2.35vw;
+}
+
+.search_cont {
+    width: 90vw;
+    margin: auto;
+    /*border: 2px solid #000;*/
+    border-radius: 2.35vw;
+    background-color: white;
+    box-shadow: 0 0 13px gray;
+    text-align: center;
+    padding-bottom: 10px;
+    margin-bottom: 6%;
+}
+
+
+.search_none {
+    font-size: 4.5vw;
+    margin: 5% 0 3% 0;
+    padding: 2% 2% 2% 2%;
+}
+
+.search_cont_none {
+    width: 90vw;
+    margin: auto;
+    border-radius: 2.35vw;
+    background-color: white;
+    box-shadow: 0 0 13px gray;
+    text-align: center;
+}

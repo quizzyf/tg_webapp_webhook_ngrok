@@ -1,0 +1,146 @@
+.rasp {
+    width: 90vw;
+    height: 75vw;
+    /*border: 2px solid #000;*/
+    border-radius: 2.35vw;
+    background-color: white;
+    font-size: 10px;
+    box-shadow: 0 0 13px gray;
+    position: relative;
+}
+
+h2 {
+    font-size: 5.6vw;
+    color: black;
+}
+
+.ff {
+    margin-left: 4%;
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    height: 45%;
+    flex-direction: column;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 700;
+}
+
+.nijn_podt {
+    position: absolute;
+    bottom: 5%;
+    width: 92%;
+    display: flex;
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    align-items: center; /* Вертикальное центрирование */
+}
+.price {
+    color: #ff3838;
+    font-size: 5.6vw;
+}
+
+.text_marg {
+    color: black;
+    font-size: 5.6vw;
+}
+
+.name_prod {
+    font-size: 5.8vw;
+    color: black;
+}
+
+th{
+    padding-bottom: 6%;
+    position: relative;
+}
+
+.descrip {
+    font-size: 4vw;
+    margin-left: 4%;
+    color: black;
+}
+
+.podrobn {
+    font-size: 4vw;
+    color: black;
+}
+
+.img_t {
+    width: 92%;
+    height: 46%;
+    border-radius: 2.35vw;
+    box-shadow: -1px 2px 13px gray;
+    margin: 4% 0 0 4%;
+}
+
+
+.table__ {
+    margin: auto;
+
+}
+
+.block {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+
+}
+
+/*.rasp:hover {*/
+/*    !*box-shadow: 0 0 10px rgba(0,0,0,0.71);*!*/
+/*    transition-duration: 0.1s;*/
+/*    transform: scale(1.02);*/
+/*}*/
+
+
+.block a{
+    color: white;
+    text-decoration: none;
+}
+
+/*.block a:hover{*/
+/*    color: #9b9b9b;*/
+/*}*/
+
+
+.b-popup{
+    width:100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    position:fixed;
+    top:0;
+    left: 0;
+    z-index: 800;
+    margin: 0;
+}
+.b-popup .b-popup-content{
+    margin: 40vw auto 0 auto;
+    width: 95vw;
+    height: 95vw;
+    /*padding:10px;*/
+    background-color: WHITE;
+    border-radius:5px;
+    box-shadow: 0 0 10px #000;
+    position: relative;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.ff-popup {
+    margin-left: 4%;
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    height: 25%;
+    flex-direction: column;
+}
+

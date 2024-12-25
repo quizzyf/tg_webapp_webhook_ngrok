@@ -1,0 +1,222 @@
+.menu {
+  position: fixed;
+  left: 0;
+    top: 0;
+  z-index: 603;
+  width: 65%;
+  height: 100vh;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: -3px 0 13px gray;
+  transition: 0.2s ease-in-out;
+  transform: translateX(-100%);
+}
+.menu_active {
+  transform: translateX(0%);
+}
+
+.menu-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80%;
+  flex-direction: column;
+}
+.menu-list a {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #ff3838;
+}
+.menu-list p {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #ff3838;
+}
+.menu-btn {
+    background: url("../img/561184.png");
+    background-size: 6.5vw 6.5vw;
+    z-index: 604;
+    width: 6.5vw;
+    height: 6.5vw;
+    position: absolute;
+    right: -9.4vw;
+    top: 2.2vw;
+}
+
+.logo {
+    background: url("../img/chad_af945a828dff4a4cb412453944e6f071.png");
+    background-size: 64vw 64vw;
+    width: 64vw; height: 64vw;
+}
+
+
+
+
+.brand_name {
+    position: absolute;
+  left: 11.7vw;
+    top: 2.2vw;
+    font-size: 6.5vw;
+    color: #ff3838;
+    margin: auto;
+    transition: 0.2s ease-in-out;
+    line-height: 6.5vw;
+    text-decoration: none;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    background-color: white;
+    z-index: 600;
+    height: 11.7vw;
+    transition: 0.2s ease-in-out;
+
+}
+
+.rrr {
+  position: relative;
+  width: 100vw;
+}
+
+.brand_name_active {
+  transform: translateX(65vw);
+}
+
+
+
+.poisk {
+    margin: 0 0;
+}
+
+body {
+    /*background: url("../img/bekk.jpg");*/
+    /*background-size: 100%;*/
+    /*background-attachment: fixed;*/
+    /*background-position: center;*/
+    background-color: #ff3838;
+    margin: 0;
+    position: relative;
+}
+
+
+.container {
+    top:0;
+    left:0;
+    height: 16vw;
+    z-index: 100;
+}
+
+.main {
+    padding: 0;
+    width: 100%;
+    max-width: none;
+    transition: 0.2s ease-in-out;
+    position: relative;
+    z-index: 0;
+}
+
+.main_active {
+  transform: translateX(65%);
+}
+
+
+.roboto-black.gg {
+        text-decoration: none; /* Убирает подчеркивание */
+        color: inherit; /* Наследует цвет от родительского элемента */
+    }
+
+
+
+
+
+
+
+
+
+
+.roboto-thin {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-light {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-regular {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-medium {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-bold {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-black {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+    font-optical-sizing: auto;
+}
+
+.roboto-thin-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+    font-optical-sizing: auto;
+}
+
+.roboto-light-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+    font-optical-sizing: auto;
+}
+
+.roboto-regular-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+    font-optical-sizing: auto;
+}
+
+.roboto-medium-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+    font-optical-sizing: auto;
+}
+
+.roboto-bold-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+    font-optical-sizing: auto;
+}
+
+.roboto-black-italic {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+    font-optical-sizing: auto;
+}

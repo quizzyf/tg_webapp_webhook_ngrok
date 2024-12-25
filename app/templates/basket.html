@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <table class="table__">
+        <tbody id="products-table-body">
+            <!-- Здесь будут добавлены строки с продуктами -->
+        </tbody>
+    </table>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем данные из Telegram Web App
+            const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
+
+            // Получаем telegram_id
+            const telegramId = initDataUnsafe.user.id;
+            const formData = new FormData();
+            formData.append('telegram_id', telegramId);
+
+            // Отправляем telegram_id на сервер для получения продуктов
+            fetch('/get_products', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                renderProducts(data.products);
+            })
+            .catch(error => console.error('Ошибка:', error));
+        });
+
+        function renderProducts(products) {
+            const tableBody = document.getElementById('products-table-body');
+
+            products.forEach((item, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <th>
+                        <div class="block">
+                            <div class="rasp" data-popup-id="popup${item[1]}">
+                                <img class="img_t" src="static/img/${item[0].image}">
+                                <div class="ff">
+                                    <div class="name_prod roboto-black">${item[0].name}</div>
+                                    <div class="price roboto-black">${item[0].cost} ₽</div>
+                                    <button onclick="decreaseQuantity('${item[0].id}')">-</button>
+                                    <span id="quantity-${item[0].id}">${ item[1] }</span>
+                                    <button onclick="increaseQuantity('${item[0].id}')">+</button>
+                                </div>
+                                <div class="b-popup hidden" id="popup${item[1]}">
+                                    <div class="b-popup-content">
+                                        <img class="img_t" src="static/img/${item[0].image}">
+                                        <div class="ff-popup">
+                                            <div class="name_prod roboto-black">${item[0].name}</div>
+                                            <div id="descr" class="descrip roboto-black">${item[0].description}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                `;
+
+                tableBody.appendChild(row);
+            });}
+            function increaseQuantity(productId) {
+                const quantityElement = document.getElementById(`quantity-${productId}`);
+                let quantity = parseInt(quantityElement.textContent);
+                quantityElement.textContent = quantity + 1;
+                const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+                const userId = initDataUnsafe.user.id;
+
+                const messageElement = document.getElementById('descr');
+                messageElement.textContent = userId;
+
+                const formData = new FormData();
+                formData.append('telegram_id', userId);
+                formData.append('product_id', productId);// Убедитесь, что это соответствует вашим ожиданиям на стороне сервера
+
+                fetch('/add_to_cart', {
+                    method: 'POST',
+                    body: formData,  // Передаем formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            }
+
+            function decreaseQuantity(productId) {
+                const quantityElement = document.getElementById(`quantity-${productId}`);
+                let quantity = parseInt(quantityElement.textContent);
+                if (quantity > 0) {
+                    quantityElement.textContent = quantity - 1;
+                    const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+                    const userId = initDataUnsafe.user.id;
+
+                    const messageElement = document.getElementById('descr');
+                    messageElement.textContent = userId;
+
+                    const formData = new FormData();
+                    formData.append('telegram_id', userId);
+                    formData.append('product_id', productId);// Убедитесь, что это соответствует вашим ожиданиям на стороне сервера
+
+                    fetch('/del_from_cart', {
+                        method: 'POST',
+                        body: formData,  // Передаем formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                    });
+                }
+            }
+
+    </script>
+{% endblock %}

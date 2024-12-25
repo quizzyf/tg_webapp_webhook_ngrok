@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table__">
+       {% for item in products %}
+            <tr>
+                <th>
+                    <div class="block">
+                        <div class="rasp" data-popup-id="popup{{ loop.index }}">
+                            <img class="img_t" src="static/img/{{ item.image }}">
+                            <div class="ff">
+                                <div class="name_prod roboto-black">
+                                    {{ item.name }}
+                                </div>
+                                <div class="price roboto-black">
+                                    {{ item.cost }} ₽
+                                </div>
+                                <div class="podrobn roboto-black">
+                                    Подробнее →
+                                </div>
+                            </div>
+                            <div class="b-popup hidden" id="popup{{ loop.index }}">
+                                <div class="b-popup-content">
+                                    <img class="img_t" src="static/img/{{ item.image }}">
+                                    <div class="ff-popup">
+                                        <div class="name_prod roboto-black">
+                                            {{ item.name }}
+                                        </div>
+                                        <div id="descr" class="descrip roboto-black">
+                                            {{ item.description.capitalize() }}
+                                        </div>
+                                        <div class="nijn_podt">
+                                            <div class="price roboto-black">
+                                                {{ item.cost }} ₽
+                                            </div>
+                                            <div class="text_marg roboto-black">
+                                                <button onclick="addToCart('{{ item.id }}')">В КОРЗИНУ</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+        {% endfor %}
+</table>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Добавляем обработчик для элемента, который открывает popup
+    document.querySelectorAll('.rasp').forEach(function (element) {
+        element.addEventListener('click', function () {
+            const popupId = this.getAttribute('data-popup-id');
+            if (popupId) {
+                const popup = document.getElementById(popupId);
+                if (popup) {
+                    // Переключаем видимость popup
+                    popup.classList.toggle('hidden');
+                }
+            }
+        });
+    });
+
+    // Добавляем обработчик для закрытия popup при клике за пределами его содержимого
+    document.querySelectorAll('.b-popup').forEach(function (popup) {
+        popup.addEventListener('click', function (event) {
+            // Если клик произошел вне области содержимого popup, то закрываем его
+            if (event.target.closest('.b-popup-content')) {
+                this.classList.add('hidden');
+            }
+        });
+    });
+});
+function addToCart(productId) {
+    const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+    const userId = initDataUnsafe.user.id;
+
+    const messageElement = document.getElementById('descr');
+    messageElement.textContent = userId;
+
+    const formData = new FormData();
+    formData.append('telegram_id', userId);
+    formData.append('product_id', productId);// Убедитесь, что это соответствует вашим ожиданиям на стороне сервера
+
+    fetch('/add_to_cart', {
+        method: 'POST',
+        body: formData,  // Передаем formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+}
+</script>
+{% endblock %}
