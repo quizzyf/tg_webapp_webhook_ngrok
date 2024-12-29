@@ -4,87 +4,61 @@
 <!--    <input type="text" id="searchQuery" placeholder="Введите текст для поиска...">-->
 <!--    <button onclick="searchItems()">Поиск</button>-->
 <!--    <div id="results"></div>-->
-    <form class="search_cont" method="get" action="/search">
-        <input class="roboto-black search_line" type="text" name="query" value="{{ query }}" placeholder="Напишите название">
-        <button class="roboto-black search_but" type="submit">🔍</button>
-    </form>
-    {% if results.__class__.__name__ == 'list' %}
-    <table class="table__">
-        {% for item in results %}
-            <tr>
-                <th>
-                    <div class="block">
-                        <div class="rasp" data-popup-id="popup{{ loop.index }}">
-                            <img class="img_t" src="static/img/{{ item.image }}">
-                            <div class="ff">
-                                <div class="name_prod roboto-black">
-                                    {{ item.name }}
-                                </div>
-                                <div class="price roboto-black">
-                                    {{ item.cost }} ₽
-                                </div>
-                                <div class="podrobn roboto-black">
-                                    Подробнее →
-                                </div>
+<form class="search_cont" method="get" action="/search">
+    <input class="roboto-black search_line" type="text" name="query" value="{{ query }}" placeholder="Напишите название">
+    <button class="roboto-black search_but" type="submit">🔍</button>
+</form>
+{% if results.__class__.__name__ == 'list' %}
+<table class="table__">
+    {% for item in results %}
+        <tr>
+            <th>
+                <div class="block">
+                    <div class="rasp" data-popup-id="popup{{ loop.index }}">
+                        <img class="img_t" src="static/img/{{ item.image }}">
+                        <div class="ff">
+                            <div class="name_prod roboto-black">
+                                {{ item.name }}
                             </div>
-                            <div class="b-popup hidden" id="popup{{ loop.index }}">
-                                <div class="b-popup-content">
-                                    <img class="img_t" src="static/img/{{ item.image }}">
-                                    <div class="ff-popup">
-                                        <div class="name_prod roboto-black">
-                                            {{ item.name }}
+                            <div class="price roboto-black">
+                                {{ item.cost }} ₽
+                            </div>
+                            <div class="podrobn roboto-black">
+                                Подробнее →
+                            </div>
+                        </div>
+                        <div class="b-popup hidden" id="popup{{ loop.index }}">
+                            <div class="b-popup-content">
+                                <img class="img_t" src="static/img/{{ item.image }}">
+                                <div class="ff-popup">
+                                    <div class="name_prod roboto-black">
+                                        {{ item.name }}
+                                    </div>
+                                    <div class="descrip roboto-black">
+                                        {{ item.description.capitalize() }}
+                                    </div>
+                                    <div class="nijn_podt">
+                                        <div class="price roboto-black">
+                                            {{ item.cost }} ₽
                                         </div>
-                                        <div class="descrip roboto-black">
-                                            {{ item.description.capitalize() }}
-                                        </div>
-                                        <div class="nijn_podt">
-                                            <div class="price roboto-black">
-                                                {{ item.cost }} ₽
-                                            </div>
-                                            <div class="text_marg roboto-black">
-                                                В КОРЗИНУ
-                                            </div>
+                                        <div class="text_marg roboto-black">
+                                            <button class="but_cart roboto-bold" onclick="addToCart('{{ item.id }}')">В КОРЗИНУ</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </th>
-            </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <div class="search_cont_none">
-        <h3 class="roboto-black search_none">{{ results }}</h3>
-    </div>
-    {% endif %}
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Добавляем обработчик для элемента, который открывает popup
-    document.querySelectorAll('.rasp').forEach(function (element) {
-        element.addEventListener('click', function () {
-            const popupId = this.getAttribute('data-popup-id');
-            if (popupId) {
-                const popup = document.getElementById(popupId);
-                if (popup) {
-                    // Переключаем видимость popup
-                    popup.classList.toggle('hidden');
-                }
-            }
-        });
-    });
-
-    // Добавляем обработчик для закрытия popup при клике за пределами его содержимого
-    document.querySelectorAll('.b-popup').forEach(function (popup) {
-        popup.addEventListener('click', function (event) {
-            // Если клик произошел вне области содержимого popup, то закрываем его
-            if (event.target.closest('.b-popup-content')) {
-                this.classList.add('hidden');
-            }
-        });
-    });
-});
-</script>
+                </div>
+            </th>
+        </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="search_cont_none">
+    <h3 class="roboto-black search_none">{{ results }}</h3>
+</div>
+{% endif %}
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="../static/js/search.js"></script>
 {% endblock %}

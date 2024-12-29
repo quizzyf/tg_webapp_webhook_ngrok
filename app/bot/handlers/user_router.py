@@ -1,9 +1,9 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart
-from aiogram.types import Message
-from app.api.dao import UserDAO
+from aiogram.types import Message, CallbackQuery
+from app.api.dao import UserDAO, OrderDAO
 from app.bot.keyboards.kbs import app_keyboard
-from app.bot.utils import greet_user, get_about_us_text
+from app.bot.utils import *
 
 user_router = Router()
 
@@ -37,3 +37,21 @@ async def cmd_back_home(message: Message) -> None:
 async def about_us(message: Message):
     kb = app_keyboard(user_id=message.from_user.id, first_name=message.from_user.first_name)
     await message.answer(get_about_us_text(), reply_markup=kb)
+
+
+@user_router.callback_query(F.data == "new_order")
+async def about_us(callback: CallbackQuery):
+    cart = await UserDAO.get_cart(callback.from_user.id)
+    await OrderDAO.add(
+        user_id=callback.from_user.id,
+        completed=False,
+        client_name=callback.from_user.first_name,
+        products_list=cart,
+    )
+    await UserDAO.clear_cart(callback.from_user.id)
+    await callback.message.edit_text(new_order())
+
+
+@user_router.callback_query(F.data == "canc_order")
+async def about_us(callback: CallbackQuery):
+    await callback.message.edit_text(canc_order())

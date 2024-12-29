@@ -38,3 +38,11 @@ def app_keyboard(user_id: int, first_name: str) -> InlineKeyboardMarkup:
     kb.button(text="📝 Cделать заказ", web_app=WebAppInfo(url=url_add_application))
     kb.adjust(1)
     return kb.as_markup()
+
+
+def order_confirm(user_id: int) -> InlineKeyboardMarkup:
+    kb = InlineKeyboardBuilder()
+    kb.button(text="Подтвердить ✅", callback_data="new_order")
+    kb.button(text="Отклонить ❌", callback_data="canc_order")
+    kb.adjust(1)
+    return kb.as_markup()

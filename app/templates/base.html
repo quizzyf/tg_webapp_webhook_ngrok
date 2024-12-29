@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../static/css/index_products.css">
     <link rel="stylesheet" href="../static/css/about_us.css">
     <link rel="stylesheet" href="../static/css/search.css">
+    <link rel="stylesheet" href="../static/css/basket.css">
+    <link rel="stylesheet" href="../static/css/orders_history.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +27,7 @@
             <a class="roboto-black gg" href="/" title="Главная страница">Главная</a>
             <a class="roboto-black gg" href="/search" title="Найдите нужный товар">Поиск</a>
             <a class="roboto-black gg" href="/cart" title="Ваши Покупки">Корзина</a>
-            <a class="roboto-black gg" title="Ваши История Покупок">История заказов</a>
+            <a class="roboto-black gg" href="/order_history" title="Ваши История Покупок">История заказов</a>
             <a class="roboto-black gg" href="/aboutus" title="О нас">О нас</a>
         </nav>
     </div>
@@ -44,9 +46,4 @@
     <script src="../static/js/script_header.js"></script>
 
 </body>
-<script>
-    var WebApp = window.Telegram.WebApp;
-
-    WebApp.showAlert(`Добро пожаловать, @${WebApp.WebAppUser.username}.`);
-</script>
 </html>

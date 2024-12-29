@@ -25,3 +25,11 @@ async def greet_user(message: Message, is_new_user: bool) -> None:
         "Чем я могу помочь вам сегодня?",
         reply_markup=main_keyboard(user_id=message.from_user.id, first_name=message.from_user.first_name)
     )
+
+
+def new_order() -> str:
+    return """Ваш заказ в обработке!\n\n Спасибо за использование нашего приложения!"""
+
+
+def canc_order() -> str:
+    return """Ваш заказ в отменен! Если хотите подтвердить заказ, снова зайдите в приложение!\n\n Спасибо за использование нашего приложения!"""

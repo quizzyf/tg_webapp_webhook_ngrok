@@ -31,6 +31,8 @@ class UserDAO(BaseDAO):
                             break
                     else:
                         current_basket.append(f'{str(id_product)}#1')
+                else:
+                    current_basket.append(f'{str(id_product)}#1')
                 user.basket = ','.join(current_basket)
                 session.add(user)
                 await session.commit()
@@ -70,12 +72,43 @@ class UserDAO(BaseDAO):
             try:
                 user = await UserDAO.find_one_or_none(telegram_id=id_user)
                 if user is None:
-                    raise SQLAlchemyError
+                    raise SQLAlchemyError('пользователь не нвйден')
                 bask = user.basket
                 if bask is None:
                     return []
                 else:
                     return bask
+            except SQLAlchemyError as e:
+                await session.rollback()
+                raise e
+
+    @classmethod
+    async def clear_cart(cls, id_user: int):
+        async with async_session_maker() as session:
+            try:
+                user = await UserDAO.find_one_or_none(telegram_id=id_user)
+                if user is None:
+                    raise SQLAlchemyError
+                user.basket = None
+                session.add(user)
+                await session.commit()
+
+            except SQLAlchemyError as e:
+                await session.rollback()
+                raise e
+
+    @classmethod
+    async def get_orders(cls, id_user: int):
+        async with async_session_maker() as session:
+            try:
+                user = await UserDAO.find_one_or_none(telegram_id=id_user)
+                if user is None:
+                    raise SQLAlchemyError('пользователь не нвйден')
+                orders = await OrderDAO.find_all(user_id=id_user)
+                if orders is None:
+                    return []
+                else:
+                    return orders
             except SQLAlchemyError as e:
                 await session.rollback()
                 raise e
@@ -129,6 +162,40 @@ class OrderDAO(BaseDAO):
 
     @classmethod
     async def get_all_applications(cls):
+        """
+        Возвращает все заявки в базе данных с дополнительной информацией о мастере и услуге.
+
+        Возвращает:
+            Список всех заявок с именами мастеров и услуг.
+        """
+        async with async_session_maker() as session:
+            try:
+                # Используем joinedload для загрузки связанных данных
+                query = (
+                    select(cls.model)
+                    .options(joinedload(cls.model.completed), joinedload(cls.model.client_name))
+                )
+                result = await session.execute(query)
+                applications = result.scalars().all()
+
+                # Возвращаем список словарей с нужными полями
+                return [
+                    {
+                        "application_id": app.id,
+                        "user_id": app.user_id,
+                        "completed": app.completed,  # Имя мастера
+                        "appointment_date": app.appointment_date,
+                        "appointment_time": app.appointment_time,
+                        "client_name": app.client_name,  # Имя клиента
+                    }
+                    for app in applications
+                ]
+            except SQLAlchemyError as e:
+                print(f"Error while fetching all applications: {e}")
+                return None
+
+    @classmethod
+    async def add_new_order(cls, telegram_id, name,  cart):
         """
         Возвращает все заявки в базе данных с дополнительной информацией о мастере и услуге.
 

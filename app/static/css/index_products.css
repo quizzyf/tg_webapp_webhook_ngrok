@@ -144,3 +144,16 @@ th{
     flex-direction: column;
 }
 
+.but_cart {
+  background-color: #ff3838;
+  border-radius: 2.5vw;
+  color: white;
+  padding: 2.5vw 8vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 4vw;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+

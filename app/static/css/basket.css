@@ -1,0 +1,71 @@
+.rasp_bas {
+    width: 90vw;
+    height: 25vw;
+    /*border: 2px solid #000;*/
+    border-radius: 2.35vw;
+    background-color: white;
+    font-size: 10px;
+    box-shadow: 0 0 13px gray;
+    position: relative;
+}
+
+
+.ff_bas {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    height: 100%;
+    flex-direction: column;
+}
+
+.ff_bas_zak {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+
+.container_pl_mi {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.but {
+    width: 7vw;
+    height: 7vw;
+    border: 0.05vw solid black;
+    border-radius: 2vw;
+    color: white; /* Установите цвет текста */
+    outline: none; /* Уберите обводку при фокусе */
+    cursor: pointer;
+}
+
+.plus {
+ background-color: #ff3838;
+    justify-content: center;
+}
+
+.minus {
+ background-color: #ff3838;
+}
+
+.count_prod {
+    font-size: 4.4vw;
+}
+
+.zak_but {
+    width: 75vw;
+    height: 7vw;
+    border: 0.05vw solid black;
+    border-radius: 2vw;
+    background-color: #ff3838;
+    color: white; /* Установите цвет текста */
+    outline: none; /* Уберите обводку при фокусе */
+    cursor: pointer;
+}
+

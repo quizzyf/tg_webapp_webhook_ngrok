@@ -1,0 +1,17 @@
+.rasp_ord {
+    width: 90vw;
+    border-radius: 2.35vw;
+    background-color: white;
+    font-size: 10px;
+    box-shadow: 0 0 13px gray;
+    position: relative;
+}
+
+.ff_ord {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    padding-bottom: 3vw;
+}
