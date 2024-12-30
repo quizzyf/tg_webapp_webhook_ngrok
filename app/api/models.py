@@ -9,8 +9,9 @@ class User(Base):
     telegram_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)  # Уникальный идентификатор пользователя в Telegram
     first_name: Mapped[str] = mapped_column(String, nullable=False)  # Имя пользователя
     username: Mapped[str] = mapped_column(String, nullable=True)  # Telegram username
+    number: Mapped[int] = mapped_column(BigInteger, nullable=True)
     basket: Mapped[str] = mapped_column(String, nullable=True)
-    orders_ids:Mapped[str] = mapped_column(String, nullable=True)
+    orders_ids: Mapped[str] = mapped_column(String, nullable=True)
 
 
 

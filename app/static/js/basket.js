@@ -65,9 +65,9 @@ function renderProducts(products) {
                     <div class="ff_bas_zak">
                         <div class="container_pl_mi">
                             <div class="name_prod roboto-black">Итоговая сумма:</div>
-                            <div class="price roboto-black">${totalSum} ₽</div>
+                            <div id="it_sum" class="price roboto-black">${totalSum} ₽</div>
                         </div>
-                        <button class="zak_but count_prod roboto-bold" onclick="newOrder()">ЗАКАЗАТЬ</button>
+                        <button class="zak_but count_prod roboto-bold" onclick="newOrder(${totalSum})">ЗАКАЗАТЬ</button>
                     </div>
                 </div>
             </div>
@@ -172,30 +172,31 @@ function updateTotalSum() {
     totalPriceElement.textContent = `${totalSum} ₽`;
 }
 
-function newOrder() {
-    const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-    const userId = initDataUnsafe.user.id;
+function newOrder(totsum) {
+    if (totsum > 0) {
+        const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+        const userId = initDataUnsafe.user.id;
 
-    const formData = new FormData();
-    formData.append('telegram_id', userId);
+        const formData = new FormData();
+        formData.append('telegram_id', userId);
 
-    fetch('/new_order', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        fetch('/new_order', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-        return response.json();
-    })
-    .then(data => {
-        alert('Подтвердите ваш заказ в боте!');
-        window.Telegram.WebApp.close();
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
-
+                return response.json();
+            })
+            .then(data => {
+                alert('Подтвердите ваш заказ в боте!');
+                window.Telegram.WebApp.close();
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    }
 }

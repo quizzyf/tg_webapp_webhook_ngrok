@@ -75,7 +75,7 @@ class UserDAO(BaseDAO):
                     raise SQLAlchemyError('пользователь не нвйден')
                 bask = user.basket
                 if bask is None:
-                    return []
+                    return ''
                 else:
                     return bask
             except SQLAlchemyError as e:
@@ -106,9 +106,24 @@ class UserDAO(BaseDAO):
                     raise SQLAlchemyError('пользователь не нвйден')
                 orders = await OrderDAO.find_all(user_id=id_user)
                 if orders is None:
-                    return []
+                    return ''
                 else:
                     return orders
+            except SQLAlchemyError as e:
+                await session.rollback()
+                raise e
+
+    @classmethod
+    async def change_number(cls, id_user: int, number: str):
+        async with async_session_maker() as session:
+            try:
+                user = await UserDAO.find_one_or_none(telegram_id=id_user)
+                if user is None:
+                    raise SQLAlchemyError
+                user.number = number
+                session.add(user)
+                await session.commit()
+
             except SQLAlchemyError as e:
                 await session.rollback()
                 raise e
@@ -171,22 +186,17 @@ class OrderDAO(BaseDAO):
         async with async_session_maker() as session:
             try:
                 # Используем joinedload для загрузки связанных данных
-                query = (
-                    select(cls.model)
-                    .options(joinedload(cls.model.completed), joinedload(cls.model.client_name))
-                )
-                result = await session.execute(query)
-                applications = result.scalars().all()
+                applications = await OrderDAO.find_all(completed=False)
 
                 # Возвращаем список словарей с нужными полями
                 return [
                     {
-                        "application_id": app.id,
+                        "id": app.id,
                         "user_id": app.user_id,
                         "completed": app.completed,  # Имя мастера
-                        "appointment_date": app.appointment_date,
-                        "appointment_time": app.appointment_time,
+                        "appointment_date": app.created_at,
                         "client_name": app.client_name,  # Имя клиента
+                        "products_list": app.products_list,
                     }
                     for app in applications
                 ]

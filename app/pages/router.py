@@ -10,6 +10,7 @@ from pydantic import BaseModel
 
 from app.bot.create_bot import bot
 from app.bot.keyboards.kbs import order_confirm
+from app.config import settings
 
 
 class UserData(BaseModel):
@@ -57,6 +58,28 @@ async def read_root(request: Request):
     return templates.TemplateResponse("orders_history.html", {"request": request})
 
 
+@router.get("/admin", response_class=HTMLResponse)
+async def read_root(request: Request, admin_id: int = None):
+    data_page = {"request": request}
+    if admin_id is None or admin_id != settings.ADMIN_ID:
+        data_page['applications'] = []
+        return templates.TemplateResponse("orders_admin.html", data_page)
+    else:
+        orders_not_completed = await OrderDAO.get_all_applications()
+        orders_not_completed.sort(key=lambda x: x['appointment_date'])
+        for order in orders_not_completed:
+            order['appointment_date'] = order['appointment_date'].strftime('%d.%m.%Y, %H:%M')
+            new_products = []
+            for i in order['products_list'].split(','):
+                prod_id, count = i.split('#')
+                prod = await ProductDAO.find_one_or_none_by_id(int(prod_id))
+                new_products.append([prod, int(count)])
+            order['products_list'] = new_products
+
+        data_page['applications'] = orders_not_completed
+        return templates.TemplateResponse("orders_admin.html", data_page)
+
+
 @router.post("/index/{prod_id}", response_class=HTMLResponse)
 async def add_product_cart(user_data):
     telegram_id = user_data.telegram_id
@@ -88,9 +111,8 @@ async def get_products(telegram_id: int = Form(...)):
                 prod_id, count = i.split('#')
                 prod = await ProductDAO.find_one_or_none_by_id(int(prod_id))
                 new_products.append([prod, int(count)])
-        orders_ret.append([new_products, order.created_at])
-    logging.info(orders_ret)
-    return {"orders": orders_ret}
+        orders_ret.append([new_products, order.created_at.strftime('%d.%m.%Y, %H:%M')])
+    return {"orders": list(reversed(orders_ret))}
 
 
 @router.post("/add_to_cart")
@@ -137,19 +159,4 @@ async def login(telegram_id: int = Form(), products_ids: str = Form(...)):
     for item in products:
         for i in range(item['count']):
             await UserDAO.add_product_basket(telegram_id, item['id'])
-
-    # products = await UserDAO.get_cart(telegram_id)
-    # new_products = []
-    # if products:
-    #     l = products.split(',')
-    #     for i in range(len(l)):
-    #         prod_id, count = l[i].split('#')
-    #         prod = await ProductDAO.find_one_or_none_by_id(int(prod_id))
-    #         message += f'\t{i + 1}) {prod.name.capitalize()} ({prod.cost} ₽) * {int(count)} шт. = {prod.cost * int(count)} ₽\n'
-    #         new_products.append([prod, int(count)])
-    # total_sum = 0
-    # for i in new_products:
-    #     total_sum += (i[0].cost * i[1])
-    # message += f'Итого: {total_sum} ₽'
-    # await bot.send_message(telegram_id, message, reply_markup=order_confirm(telegram_id))
     return {"re": 1}
